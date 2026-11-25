@@ -18,6 +18,10 @@ function clean(input, { partial = false } = {}) {
     if (!data.asset_code) throw new ValidationError("asset_code is required");
     if (!data.name) throw new ValidationError("name is required");
   }
+  // Blank optional fields fall back to the column defaults instead of NULL.
+  if (!data.category) data.category = "General";
+  if (!data.location) data.location = "Lab";
+  if (!data.status) data.status = "available";
   if (data.status !== undefined && data.status !== null && !STATUSES.includes(data.status)) {
     throw new ValidationError(`status must be one of: ${STATUSES.join(", ")}`);
   }
