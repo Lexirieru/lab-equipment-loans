@@ -1,0 +1,17 @@
+{
+  "name": "admin-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lab equipment loans: admin-service",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "mysql2": "^3.24.6"
+  }
+}
