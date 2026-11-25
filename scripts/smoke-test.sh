@@ -21,7 +21,8 @@ call "http://$HOST:8081/admin/health"
 call "$CATALOG/health"
 
 step "CREATE  POST /admin/api/equipment"
-RESP=$(curl -s -X POST "$ADMIN" -H 'Content-Type: application/json' \
+echo "\$ curl -X POST $ADMIN -H Content-Type: application/json -d {...Arduino Uno Kit...}"
+RESP=$(curl -s -w '\nHTTP %{http_code}' -X POST "$ADMIN" -H 'Content-Type: application/json' \
   -d "{\"asset_code\":\"$CODE\",\"name\":\"Arduino Uno Kit\",\"category\":\"Embedded\",\"location\":\"Lab IoT\"}")
 echo "$RESP"
 ID=$(echo "$RESP" | sed -n 's/.*"id":\([0-9]*\).*/\1/p')
