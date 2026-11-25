@@ -112,4 +112,6 @@ cd admin-service && npm install && APP_DB_USER=root APP_DB_PASSWORD=pw PORT=8081
 cd catalog-service && npm install && APP_DB_USER=root APP_DB_PASSWORD=pw npm start
 ```
 
+![Architecture](docs/architecture.png)
+
 See [docs/deployment-plan.md](docs/deployment-plan.md) for the target architecture and next phases.
