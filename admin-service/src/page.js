@@ -13,6 +13,8 @@ module.exports = () => `<!doctype html>
   main { max-width: 1000px; margin: 24px auto; padding: 0 16px; }
   form, table { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
   form { padding: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #5f6368; }
+  .actions { display: flex; gap: 8px; align-items: flex-end; }
   input, select, button { padding: 8px; font-size: 14px; border: 1px solid #cfd4dc; border-radius: 6px; }
   button { background: #ff9900; border: none; color: #1d2330; font-weight: 600; cursor: pointer; }
   button.secondary { background: #e6e9ee; }
@@ -30,18 +32,18 @@ module.exports = () => `<!doctype html>
   <div id="msg"></div>
   <form id="form">
     <input type="hidden" name="id">
-    <input name="asset_code" placeholder="Asset code (e.g. OSC-001)" required>
-    <input name="name" placeholder="Name" required>
-    <input name="category" placeholder="Category">
-    <input name="location" placeholder="Location">
-    <select name="status">
+    <label>Asset code *<input name="asset_code" placeholder="e.g. OSC-001" required></label>
+    <label>Name *<input name="name" placeholder="e.g. Digital Oscilloscope" required></label>
+    <label>Category<input name="category" placeholder="e.g. Measurement"></label>
+    <label>Location<input name="location" placeholder="e.g. Lab Elektronika"></label>
+    <label>Status<select name="status">
       <option value="available">available</option>
       <option value="borrowed">borrowed</option>
       <option value="maintenance">maintenance</option>
-    </select>
-    <input name="borrower_name" placeholder="Borrower (if borrowed)">
-    <input name="due_date" type="date">
-    <span><button type="submit" id="save">Create</button> <button type="button" class="secondary" id="reset">Clear</button></span>
+    </select></label>
+    <label>Borrower (if borrowed)<input name="borrower_name" placeholder="Student name"></label>
+    <label>Due date (if borrowed)<input name="due_date" type="date"></label>
+    <span class="actions"><button type="submit" id="save">Create</button> <button type="button" class="secondary" id="clear-btn">Clear</button></span>
   </form>
   <table>
     <thead><tr><th>ID</th><th>Asset</th><th>Name</th><th>Category</th><th>Location</th><th>Status</th><th>Borrower</th><th>Due</th><th></th></tr></thead>
@@ -76,6 +78,12 @@ async function del(id) {
   load();
 }
 
+function clearForm() {
+  HTMLFormElement.prototype.reset.call(form);
+  form.elements.namedItem("id").value = "";
+  document.getElementById("save").textContent = "Create";
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = Object.fromEntries(new FormData(form));
@@ -88,11 +96,11 @@ form.addEventListener("submit", async (e) => {
   const data = res.status === 204 ? {} : await res.json();
   if (!res.ok) return msg(data.error, false);
   msg((id ? "Updated #" : "Created #") + data.id);
-  form.reset(); form.elements.id.value = ""; document.getElementById("save").textContent = "Create";
+  clearForm();
   load();
 });
 
-document.getElementById("reset").onclick = () => { form.reset(); form.elements.id.value = ""; document.getElementById("save").textContent = "Create"; };
+document.getElementById("clear-btn").onclick = clearForm;
 load();
 </script>
 </body>
