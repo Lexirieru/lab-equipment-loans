@@ -68,7 +68,7 @@ async function start() {
       break;
     } catch (err) {
       console.error(`DB connection failed (attempt ${attempt}): ${err.message}`);
-      if (attempt >= 10) process.exit(1);
+      if (attempt >= 20) process.exit(1);
       await new Promise((r) => setTimeout(r, 3000));
     }
   }
